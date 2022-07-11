@@ -1,0 +1,32 @@
+# name of the worklow
+name: Upload and Display Json
+
+# only run this workflow "on" the condition when there is a "push" on "main" branch.
+on:
+  push:
+    branches:
+      - "main" 
+
+# define list of "jobs" in the current workflow 
+jobs:
+  Upload-Display-Json: # name of the current job
+    runs-on: ubuntu-latest  # environment 
+    name: Upload and Display Json File on Main
+
+    # define each "steps" of the current job
+    steps:
+        # name of the first step is "Checkout", which "uses" an existing 
+        # task from "actions/checkout@v2" that pulls this repo into work space. 
+        # "@v2" is the requried version tag.
+        # You can find more pre-defined actions here: 
+        # https://github.com/actions/
+      - name: Checkout
+        uses: actions/checkout@v2
+
+        # name of the second step is "Upload Json", which uploads a give file
+        # use the keyword "with" to specify the path of the file
+      - name: Upload Json
+        uses: actions/upload-artifact@v2
+        with:
+          name: Json-file
+          path: comments.json
