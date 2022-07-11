@@ -1,0 +1,11 @@
+name: 'Show Comments in Actions'
+inputs:
+  json_file:
+    description: 'Where to find the json output of the comments'
+    required: true
+    default: 'comments.json'
+
+
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

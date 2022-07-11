@@ -30,3 +30,9 @@ jobs:
         with:
           name: Json-file
           path: comments.json
+
+      - name: Display comment
+        # Use the action defined in this repository
+        uses: ./
+        with:
+          json_file: "comments.json"

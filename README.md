@@ -59,10 +59,22 @@ jobs:
 
 4. Next, let's push everything(`.github/workflows/upload_main_comments.yml` and `comments.json`) to Github. In your git repo, under `Actions` icon, you should be able to see a workflow running with the same name as your commit message. If everything compiles succesfully, `comments.json` should be successfully uploaded to Github Actions.
 
+File Hierarchy:
+<p align="center">
+<img src="img/first_test_file_hierarchy.png" alt="File Hierarchy" width="400"/>
+<p  >
+
+Github Actions Result:
+<p align="center">
+<img src="img/first_test1.png" alt="File Hierarchy" width="800"/>
+<img src="img/first_test2.png" alt="File Hierarchy" width="800"/>
+<p  >
+
+You can click into the workflow to see more details about each step in job.
 
 # Test on local machines
 
-As developers, testing a project on server is extremly insuficient, and it will be much nicer if we can test it on our local machines where we can get immediate feedback.
+As developers, testing a project on server is extremly insufficient, and it will be much nicer if we can test it on our local machines where we can get immediate feedback.
 
 5. To test Github Actions on local machines, we will use an open source software call `act` (https://github.com/nektos/act). It provides CLI that allows you to run Github Actions right in your terminal. Simply follow the [instructions](https://github.com/nektos/act) to install it.
 
@@ -71,7 +83,7 @@ As developers, testing a project on server is extremly insuficient, and it will 
 $ act --artifact-server-path http://localhost:8080/ push
 ```
 
-If everything goes successfully, you should be able to see outputs in terminal that are similar to that in Github Actions. You will also see a folder created by `act` that contains the `json` file we just uploaded (since this is only for testing purpose, you may not want to push this folder and file to your Github repo).
+If everything goes successfully, you should be able to see outputs in terminal that are similar to that in Github Actions. You will also see a folder with name `http:` created by `act` that contains the `json` file we just uploaded (since this is only for testing purpose, you may not want to push this folder and file to your Github repo).
 
 
 # Write Actions with TypeScript
@@ -104,21 +116,14 @@ const fs = require("fs");
 
 
 // Create markdown message from the json file 
-function createMessage(filename: string) : string {
-  // read the file
-  const jsonFile = fs.readFileSync(filename);
-
-  // parse and return 
-  const jsonMsg = JSON.parse(jsonFile);
-
-  // create message table
   function createMessage(filename: string) : any[] {
   // read the file
   const jsonFile = fs.readFileSync(filename);
 
-  // parse and return 
+  // parse json file
   const jsonMsg = JSON.parse(jsonFile);
 
+  // create the message
   let message: any[] = [[{data: 'Title', header: true}, {data: 'Comments', header: true}]];
     
   // add json message to the table
@@ -132,7 +137,7 @@ function createMessage(filename: string) : string {
 }
 
 // read from json file and log the message
-const message = createMessage("comments.json");
+const message = createMessage("comments.json");   // hard code the filename
 console.log(message);
 ```
 
@@ -165,7 +170,7 @@ and create a config file `tsconfig.json` for `tsc` command:
 $ npm run build
 ```
 
-This should translate the TypeScript program we just wrote into a `.js` file in `lib/main.js` and merge all dependencies in a single JavaScript file in `dist/index.js`. 
+This should translate the TypeScript program we just wrote to a `.js` file at `lib/main.js` and merge all dependencies to a single JavaScript file at `dist/index.js`. 
 
 Then, run the actual Javascript program at `dist/index.js` using nodeJS:
 ```
@@ -182,25 +187,23 @@ You should also see the following messega printed in the terminal:
 ]
 ```
 
+Here, we just ran a JavaScript program locally with node.js. For most of more complicated Github Actions tasks, we may not be able to run it with node.js.
+
 12. In reality, we do not want to hard code the file name, but instead, we should pass in the file name through actions. So, first comment out the last two lines in the `src/main.ts`. Then, add the following to the end:
 ```
+// get essential packages
 const core = require("@actions/core");
 const github = require("@actions/github");
 
 async function run() {
-
+    // get filename and read the message
     const filename = core.getInput("json_file");
+    const message = createMessage(filename);
 
-        // read the file
-    const jsonFile = fs.readFileSync(filename);
-
-    // parse and return 
-    const jsonMsg = JSON.parse(jsonFile);
-
-    const message = createMessage("comments.json");
-
+    // create message table with job summaries
+    // https://github.blog 2022-05-09-supercharging-github-actions-with-job-summaries/
     await core.summary
-    .addHeading('Test Results')
+    .addHeading('Json File Comments')
     .addTable(message)
     .write()
 
@@ -214,7 +217,7 @@ Don't forget to recompile the program:
 $ npm run build
 ```
 
-13. Let the Github know about our new action by creating a `action.yml` file with following content:
+13. Let Github know about our new action by creating a `action.yml` file with following content:
 ```
 name: 'Show Comments in Actions'
 inputs:
@@ -229,7 +232,7 @@ runs:
   main: 'dist/index.js'
 ```
 
-We also need to add a new step in `main_branch_comments.yml` file:
+We also need to add a new step in `upload_main_comments.yml` file:
 ```
       - name: Display comment
         # Use the action defined in this repository
@@ -244,6 +247,19 @@ $ act --env GITHUB_STEP_SUMMARY=[PATH-TO-A-FILE] --artifact-server-path http://l
 ```
 
 The flag `GITHUB_STEP_SUMMARY=[PATH-TO-A-FILE]` gives a path of a local file, which is a way to get around with [Job Summaries in act](https://github.com/nektos/act/issues/1187). You can simply use the path to the `json` file we just uploaded 
-$ `act --env GITHUB_STEP_SUMMARY=./http:/localhost:8080/1/comments-file/comments.json --artifact-server-path http://localhost:8080/ push` since it will not modify the file itself.
+$ `act --env GITHUB_STEP_SUMMARY=./http:/localhost:8080/1/Json-file/comments.json --artifact-server-path http://localhost:8080/ push` since it will not modify the file itself.
 
-15. Finally, let's run it on Github Actions. Push everything to Github, and go to Github Actions to checkout the result.
+Sample terminal results when testing locally:
+<p align="center">
+<img src="img/final_test_local.png" alt="File Hierarchy" width="800"/>
+<p  >
+
+15. Before we test it again on Github Actions, there are some files we do not want to push to Github, so let's wirte a `.gitignore` to omit those files. Create a `.gitignore` file and type in the following
+```
+https:/
+node_modules/
+.DS_Store
+```
+
+
+16. Finally, let's run it on Github Actions. Push everything to Github, and go to Github Actions to checkout the result.
