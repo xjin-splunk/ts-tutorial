@@ -256,10 +256,13 @@ Sample terminal results when testing locally:
 
 15. Before we test it again on Github Actions, there are some files we do not want to push to Github, so let's wirte a `.gitignore` to omit those files. Create a `.gitignore` file and type in the following
 ```
-https:/
+# local server folder created by act
+http:/
+# node pakcages
 node_modules/
+# macOS Cache file
 .DS_Store
 ```
 
 
-16. Finally, let's run it on Github Actions. Push everything to Github, and go to Github Actions to checkout the result.
+16. Finally, let's run it on Github Actions. Push everything to Github, and go to Github Actions to checkout the results.

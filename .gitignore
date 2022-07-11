@@ -1,3 +1,6 @@
+# local server folder created by act
 http:/
+# node pakcages
 node_modules/
+# macOS Cache file
 .DS_Store
