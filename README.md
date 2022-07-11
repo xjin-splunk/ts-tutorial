@@ -266,3 +266,14 @@ node_modules/
 
 
 16. Finally, let's run it on Github Actions. Push everything to Github, and go to Github Actions to checkout the results.
+
+File Hierarchy:
+<p align="center">
+<img src="img/final_test_file_hierarchy.png" alt="File Hierarchy" width="400"/>
+<p >
+
+Github Actions Result:
+<p align="center">
+<img src="img/final_test1.png" alt="File Hierarchy" width="800"/>
+<img src="img/final_test2.png" alt="File Hierarchy" width="800"/>
+<p  >
