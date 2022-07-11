@@ -1,9 +1,9 @@
 
-# Develop a Github Actions Projct with TypeScript
+# Develop a Github Actions Project with TypeScript
 
 ## Github Actions
 
-Github Actions is a powerful CI/CD tool that nicely integrated with Github which allows you to write and share action tasks easily. You can find more information at [Github Actions](https://docs.github.com/en/actions). In this tutorial, we will go over how to upload a json file to Github Actions and display the contents on Github Actions with Typescript. 
+Github Actions is a powerful CI/CD tool that nicely integrates with Github which allows you to write and share action tasks easily. You can find more information at [Github Actions](https://docs.github.com/en/actions). In this tutorial, we will go over how to upload a json file to Github Actions and display the contents on Github Actions with Typescript. 
 
 1. First, let's [create a new git repository](https://docs.github.com/en/get-started/quickstart/create-a-repo) for this project and make a copy/clone of it on your local machine. 
 
