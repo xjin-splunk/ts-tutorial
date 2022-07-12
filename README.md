@@ -74,7 +74,7 @@ You can click into the workflow to see more details about each step in job.
 
 # Test on local machines
 
-As developers, testing a project on server is extremly insufficient, and it will be much nicer if we can test it on our local machines where we can get immediate feedback.
+As a developer, testing a project on server is extremly inefficient, and it will be much nicer if we can test it on our local machines where we can get immediate feedback.
 
 5. To test Github Actions on local machines, we will use an open source software call `act` (https://github.com/nektos/act). It provides CLI that allows you to run Github Actions right in your terminal. Simply follow the [instructions](https://github.com/nektos/act) to install it.
 
