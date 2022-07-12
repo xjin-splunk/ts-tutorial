@@ -4,6 +4,11 @@ inputs:
     description: 'Where to find the json output of the comments'
     required: true
     default: 'comments.json'
+  
+  vt_api_key:
+    description: 'virusTotal API token'
+    default: ${{ secrets.VT_API_KEY }}
+    required: true  
 
 
 runs:
