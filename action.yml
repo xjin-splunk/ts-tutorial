@@ -4,8 +4,11 @@ inputs:
     description: 'Where to find the json output of the comments'
     required: true
     default: 'comments.json'
-
-
+  
+  vt_api_key:
+    description: 'virusTotal API token'
+    required: true  
+  
 runs:
   using: 'node12'
   main: 'dist/index.js'

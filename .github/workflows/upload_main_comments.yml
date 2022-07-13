@@ -31,8 +31,17 @@ jobs:
           name: Json-file
           path: comments.json
 
+      # use third-party actions to upload and virus-scan a file 
+      - name: Scan file using third-party action
+        uses: crazy-max/ghaction-virustotal@v3
+        with:
+          vt_api_key: ${{ secrets.VT_API_KEY }}   # virusTotal Api Key
+          files: comments.json                    # path to the file you want to scan
+
       - name: Display comment
         # Use the action defined in this repository
         uses: ./
         with:
           json_file: "comments.json"
+
+
