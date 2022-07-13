@@ -1,7 +1,7 @@
 
-# Develop a Github Actions Project with TypeScript
+# `Develop a Github Actions Project with TypeScript`
 
-## Github Actions
+# Github Actions
 
 Github Actions is a powerful CI/CD tool that nicely integrates with Github which allows you to write and share action tasks easily. You can find more information at [Github Actions](https://docs.github.com/en/actions). In this tutorial, we will go over how to upload a json file to Github Actions and display the contents on Github Actions with Typescript. 
 
@@ -91,7 +91,16 @@ If everything goes successfully, you should be able to see outputs in terminal t
 ## Setup work environment
 Now, let's write our Action pipeline with [TypeScript](https://www.typescriptlang.org). TypeScript is essentially JavaScript with variable types. Becasue Github can only run JavaScipt, we will need to compile TypeScript into JavaScript, which can be done in just one line of code and we will cover it later. To setup work environment for JavaScript programs, we will use [Node.js](https://nodejs.dev) which allows us to run JavaScrupt program outside of the browsers.
 
-7. To initialize a Javascript program, we will use the Node.js package manager `npm`. First, run the following command and follow the instructions to initialize a project's `package.json` file that contains the description, author, dependencies of the program.
+## Prerequisite: 
+
+To initialize a Javascript program, we will use the Node.js package manager `npm`. Follow this link to install [Node.js](https://nodejs.dev).
+
+Then, install TypeScript using following command:
+```
+$ npm install typescript --save-dev
+```
+
+7. First, run the following command and follow the instructions to initialize a project's `package.json` file that contains the description, author, dependencies of the program.
 ```
 $ npm init
 ```
@@ -277,3 +286,54 @@ Github Actions Result:
 <img src="img/final_test1.png" alt="File Hierarchy" width="800"/>
 <img src="img/final_test2.png" alt="File Hierarchy" width="800"/>
 <p  >
+
+
+# Use Third-Party Actions
+
+There are numerous amazing Actions developed by people in Github community. Here, we will show how we can utilize some of them in our own project. One example is the [virusTotal](https://github.com/crazy-max/ghaction-virustotal) software that provides free virus scanning on Github Actions. We can plug it into our own workflow before we read `comments.json` file to check the security of the file.
+
+## Git Secrets and Personal Access Tokens
+
+17. In order to use virusTotal software, we will need to apply a [virusTotal API key](https://developers.virustotal.com/reference/overview#authentication) first. Follow the link and save your API key to somewhere safe. 
+
+18. Then, add this API key to your git repo. You can learn how to [add a new Github secret here](https://docs.github.com/en/actions/security-guides/encrypted-secrets). The benefit of Github Secrets is that you can conveal your private API by replacing it with `secrets.YOUR_SECRET_NAME` for security purpose.
+
+19. Next, we will need to create a [Personal Access Token](https://github.com/settings/tokens) for authentication purpose. You can follow the [link here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) to create a Personal Access Token. Note that your Personal Access Token will only appear once after it is created. Make sure you save it to somewhere safe (but you can always make a new one if you accidentally lost it).
+
+## Add a new step in `yml` file
+
+20. Type in the following script between `Upload Json` step and `Display comment` step in `upload_main_comments.yml`:
+```
+# use third-party actions to upload and virus-scan a file 
+- name: Scan file using third-party action
+  uses: crazy-max/ghaction-virustotal@v3
+  with:
+    vt_api_key: ${{ secrets.VT_API_KEY }}   # virusTotal Api Key
+    files: comments.json                    # path to the file you want to scan
+```
+
+When this step gets ccompiled on Github Actions, Github will replace `secrets.VT_API_KEY` by the API key that you stored earlier in current repo secret. Make sure names match exactly here and in your repo secret.
+
+21. To pass in `vt_api_key`, add following to `action.yml` file under `input` section:
+```
+vt_api_key:
+  description: 'virusTotal API token'
+  required: true  
+```
+
+22. Let's first test it locally:
+```
+$ act --env GITHUB_STEP_SUMMARY=comments.json --artifact-server-path http://localhost:8080/ --secret VT_API_KEY=[YOUR_VT_API_KEY] --secret GITHUB_TOKEN=[YOUR_GIT_TOKEN] push
+```
+
+In order to run this workflow locally, we will use `--secret` flag to pass in `VT_API_KEY` and `YOUR_GIT_TOKEN`. Don't forget to replace `[YOUR_VT_API_KEY]` and `[YOUR_GIT_TOKEN]` by your own virusTotal API key and github personal token.
+
+In your terminal, you should be able to see something like this:
+
+<p align="center">
+<img src="img/vt_results.png" alt="File Hierarchy" width="800"/>
+<p >
+
+You can follow the virusTotal link to checkout your scanning results.
+
+23. Finally, push everything to Github. Go to `Actions` to checkout the results.

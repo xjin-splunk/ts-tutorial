@@ -8,8 +8,7 @@ inputs:
   vt_api_key:
     description: 'virusTotal API token'
     required: true  
-
-
+  
 runs:
   using: 'node12'
   main: 'dist/index.js'
