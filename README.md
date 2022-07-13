@@ -1,5 +1,5 @@
 
-# `Develop a Github Actions Project with TypeScript`
+# Develop a Github Actions Project with TypeScript
 
 # Github Actions
 
@@ -337,3 +337,10 @@ In your terminal, you should be able to see something like this:
 You can follow the virusTotal link to checkout your scanning results.
 
 23. Finally, push everything to Github. Go to `Actions` to checkout the results.
+
+<p align="center">
+<img src="img/vt_git_result.png" alt="File Hierarchy" width="800"/>
+<p >
+
+
+
