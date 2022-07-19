@@ -1,7 +1,14 @@
 
 # Develop a Github Actions Project with TypeScript
 
-# Github Actions
+Table of Contents:
+- [Github Actions](#github-actions)
+- [Test on GitHub Actions](#test-on-github-actions)
+- [Test on Local Machines](#test-on-local-machines)
+- [Write Actions with TypeScript](#write-actions-with-typescript)
+- [Use Third-Party Actions](#use-third-party-actions)
+
+# Github Actions 
 
 Github Actions is a powerful CI/CD tool that nicely integrates with Github which allows you to write and share action tasks easily. You can find more information at [Github Actions](https://docs.github.com/en/actions). In this tutorial, we will go over how to upload a json file to Github Actions and display the contents on Github Actions with Typescript. 
 
@@ -72,7 +79,7 @@ Github Actions Result:
 
 You can click into the workflow to see more details about each step in job.
 
-# Test on local machines
+# Test on Local Machines
 
 As a developer, testing a project on server is extremly inefficient, and it will be much nicer if we can test it on our local machines where we can get immediate feedback.
 
